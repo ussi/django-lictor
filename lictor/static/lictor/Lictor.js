@@ -37,10 +37,8 @@ var Lictor = go.Class(go.Ext.Nodes, {
         'session_toggle': "#session-toggle"
     },
     
-    '__construct': (function (registry) {
+    '__construct': (function () {
         this.initNodes($("body"));
-        this.registry = registry;
-        this.session = new Lictor.Session(this.nodes.session_toggle, registry.session_cookie_name);
     }),
     
     '__destruct': (function () {
@@ -48,7 +46,9 @@ var Lictor = go.Class(go.Ext.Nodes, {
         this.session.destroy();
     }),
     
-    'run': (function () {
+    'run': (function (registry) {
+        this.registry = registry;
+        this.session = new Lictor.Session(this.nodes.session_toggle, registry.session_cookie_name);    
     }),
 
     'eoc': null
