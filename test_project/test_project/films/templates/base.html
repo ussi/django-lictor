@@ -1,0 +1,26 @@
+{% load static i18n %}<!DOCTYPE html><!--
+
+                      .-=-.          .--.
+          __        .'     '.       /  " )
+  _     .'  '.     /   .-.   \     /  .-'\
+ ( \   / .-.  \   /   /   \   \   /  /    ^
+  \ `-` /   \  `-'   /     \   `-`  /
+DJANGO DASH 2012___.'       `.____.'
+
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% trans "Main page" %}{% endblock %} / Test project</title>
+        <link rel="stylesheet" href="{% static "/static/screen.css" %}" />
+    </head>
+    <body>
+        <div>
+            <h1>Test project</h1>
+			<hr />
+        </div>
+        <div>
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>

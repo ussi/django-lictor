@@ -11,7 +11,7 @@ class CollectMiddleware(object):
         return None
 
     def process_response(self, request, response):
-        if self.tracer.is_enable():
+        if hasattr(self, 'tracer') and self.tracer.is_enable():
             self.tracer.stop()
             self.tracer.dump_trace()
         return response
