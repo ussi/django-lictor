@@ -39,7 +39,7 @@ Lictor.Workspace = go.Class([go.Ext.Nodes], {
     }),
     
     'requestNewSteps': (function (sessionId) {
-        this.requestLast.ajax(sessionId, this.lastId, this.onSuccessLast);
+        this.ajax.requestLast(sessionId, this.lastId, this.onSuccessLast);
     }),
     
     'onSuccessLast': (function (result) {

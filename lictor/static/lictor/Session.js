@@ -71,7 +71,7 @@ Lictor.Session = go.Class([go.Ext.Nodes, go.Ext.Events], {
         if (!id) {
             return;
         }
-        $.removeCookie(this.COOKIE_NAME);
+        $.removeCookie(this.COOKIE_NAME, {'path': "/"});
         this.id = null;
         this.toggleStop();
         this.fireEvent("stop", id);

@@ -3,17 +3,19 @@
 /**
  * @class Ajax
  */
-var Ajax = go.Class({
+Lictor.Ajax = go.Class({
     
     'ACTION_LAST' : "{{ lictor_dir }}/last/",
     'ACTION_GET'  : "{{ lictor_dir }}/get/",
     
-    '__construct': (function (dir) {
-        this.dir = dir;
+    '__construct': (function (dir, csrf) {
+        this.dir  = dir;
+        this.csrf = csrf;
     }),
     
     'request': (function (action, data, success, error) {
-        action = action.replace("{{ lictor_dir }}", dir);
+        action = action.replace("{{ lictor_dir }}", this.dir);
+        data.csrfmiddlewaretoken = this.csrf;
         jQuery.ajax({
             'url'      : action,
             'type'     : "POST",
@@ -29,7 +31,7 @@ var Ajax = go.Class({
             'sid'  : sid,
             'last' : last
         };
-        this.request(this.ACTION_LIST, data, success);
+        this.request(this.ACTION_LAST, data, success);
     }),
 
     'eoc': null
