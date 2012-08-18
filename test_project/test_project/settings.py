@@ -11,12 +11,13 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'lictor.db',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -97,10 +98,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'lictor.urls'
+ROOT_URLCONF = 'test_project.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'lictor.wsgi.application'
+WSGI_APPLICATION = 'test_project.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -119,6 +120,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'lictor',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -149,3 +151,16 @@ LOGGING = {
         },
     }
 }
+
+###########################
+# Load LOCAL_SETTINGS
+###########################
+try:
+    import types
+    from . import local_settings
+    for key in dir(local_settings):
+        value = getattr(local_settings, key)
+        if not key.startswith('__') and not isinstance(value, types.ModuleType):
+            globals()[key] = value
+except ImportError:
+    raise
