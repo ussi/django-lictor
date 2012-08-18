@@ -1,4 +1,9 @@
 *.log
 *.pot
 *.pyc
+*~
+*.mo
+*.db
+.idea
 local_settings.py
+/venv/
