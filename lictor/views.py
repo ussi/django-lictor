@@ -23,6 +23,8 @@ class LictorTraceLast(JsonResponseMixin, View):
             trace[0] for trace in self.model.objects\
                 .filter(session=request.GET.get('sid'), pk__gt=request.GET.get('last'))\
                 .order_by('pk').values_list('pk')]
+        trace = self.model.objects.filter(pk=context['new'][-1]).values()[0]
+        context['json'] = trace
         return self.render_to_response(context)
 
 
