@@ -1,3 +1,4 @@
+import simplejson
 from django.views.generic import TemplateView, View
 from django.conf import settings
 
@@ -21,9 +22,10 @@ class LictorTraceLast(JsonResponseMixin, View):
         context = {}
         context['new'] = [
             trace[0] for trace in self.model.objects\
-                .filter(session=request.GET.get('sid'), pk__gt=request.GET.get('last'))\
+                .filter(session=request.POST.get('sid'), pk__gt=request.POST.get('last'))\
                 .order_by('pk').values_list('pk')]
         trace = self.model.objects.filter(pk=context['new'][-1]).values()[0]
+        trace['json'] = simplejson.loads(trace['json'])
         context['json'] = trace
         return self.render_to_response(context)
 
@@ -33,6 +35,6 @@ class LictorTraceGet(JsonResponseMixin, View):
 
     def dispatch(self, request):
         context = {}
-        trace = self.model.objects.filter(pk=request.GET.get('id')).values()[0]
+        trace = self.model.objects.filter(pk=request.POST.get('id')).values()[0]
         context[trace['id']] = trace
         return self.render_to_response(context)
