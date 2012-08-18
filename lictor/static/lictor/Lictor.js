@@ -4,7 +4,7 @@
  * @static Lictor instance
  * @property-read Lictor.Session session
  */
-var Lictor = go.Class({
+var Lictor = go.Class(go.Ext.Nodes, {
 
     '__static': {
     
@@ -38,10 +38,12 @@ var Lictor = go.Class({
     },
     
     '__construct': (function () {
+        this.initNodes($("body"));
         this.session = new Lictor.Session(this.nodes.session_toggle);
     }),
     
     '__destruct': (function () {
+        this.doneNodes();
         this.session.destroy();
     }),
     
