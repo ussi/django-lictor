@@ -22,8 +22,9 @@ Lictor.Session = go.Class(go.Ext.Nodes, {
         }
     },
 
-    '__construct': (function (node) {
+    '__construct': (function (node, cookieName) {
         this.initNodes(node);
+        this.COOKIE_NAME = cookieName || this.COOKIE_NAME;
         this.id = $.cookie(this.COOKIE_NAME);
         if (this.id) {
             this.toggleStart();
