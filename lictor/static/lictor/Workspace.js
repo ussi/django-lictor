@@ -4,12 +4,16 @@
  * @class Lictor.Workspace
  *
  * @param {Lictor.Step[]} steps
+ * @param {Lictor.Ajax} ajax
+ * @param {Number} lastId
  */
 Lictor.Workspace = go.Class([go.Ext.Nodes], {
 
-    '__construct': (function (node) {
+    '__construct': (function (node, ajax) {
         this.initNodes(node);
-        this.steps = [];
+        this.ajax   = ajax;
+        this.steps  = [];
+        this.lastId = 0;
     }),
     
     '__destruct': (function () {
@@ -32,6 +36,13 @@ Lictor.Workspace = go.Class([go.Ext.Nodes], {
             this.steps[i].shift(width);
         }
         return step;
+    }),
+    
+    'requestNewSteps': (function (sessionId) {
+        this.requestLast.ajax(sessionId, this.lastId, this.onSuccessLast);
+    }),
+    
+    'onSuccessLast': (function (result) {
     }),
 
     'eoc': null
