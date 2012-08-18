@@ -25,3 +25,9 @@
 #session-toggle [class^="icon-"], [class*=" icon-"] {
     background-image: url("icons.png") !important;
 }
+
+#workspace {
+    border: 1px solid black;
+    width: 750px;
+    height: 500px;
+}
