@@ -46,7 +46,7 @@ var Lictor = go.Class(go.Ext.Nodes, {
         'workspace'      : "#workspace"
     },
     
-    'STEP_REQUEST_PERIOD': 20000,
+    'STEP_REQUEST_PERIOD': 60000,
     
     '__construct': (function () {
         this.initNodes($("body"));
