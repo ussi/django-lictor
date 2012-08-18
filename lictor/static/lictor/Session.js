@@ -1,9 +1,11 @@
-"strict mode"
+"use strict";
 
 /**
  * @property-read string id
+ * @event start
+ * @event stop
  */
-Lictor.Session = go.Class(go.Ext.Nodes, {
+Lictor.Session = go.Class([go.Ext.Nodes, go.Ext.Events], {
 
     'COOKIE_NAME': "lictor_session",
 
@@ -22,8 +24,9 @@ Lictor.Session = go.Class(go.Ext.Nodes, {
         }
     },
 
-    '__construct': (function (node) {
+    '__construct': (function (node, cookieName) {
         this.initNodes(node);
+        this.COOKIE_NAME = cookieName || this.COOKIE_NAME;
         this.id = $.cookie(this.COOKIE_NAME);
         if (this.id) {
             this.toggleStart();
@@ -57,15 +60,18 @@ Lictor.Session = go.Class(go.Ext.Nodes, {
         this.id = this.createId();
         $.cookie(this.COOKIE_NAME, this.id);
         this.toggleStart();
+        this.fireEvent("start", this.id);
     }),
     
     'stop': (function () {
-        if (!this.id) {
+        var id = this.id;
+        if (!id) {
             return;
         }
         $.removeCookie(this.COOKIE_NAME);
         this.id = null;
         this.toggleStop();
+        this.fireEvent("stop", id);
     }),
     
     'onClickStart': (function (e) {

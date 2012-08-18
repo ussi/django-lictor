@@ -19,7 +19,10 @@
         <link href="{% static "/static/bootstrap/css/bootstrap-responsive.css" %}" rel="stylesheet" />
         <script type="text/javascript">
         $(document).ready(function () {
-            Lictor.getInstance().run();
+            var registry = {
+                'session_cookie_name': "{{ LICTOR_SESSION_COOKIE_NAME }}"
+            };
+            Lictor.getInstance().run(registry);
         });
         $(window).unload(function () {
             Lictor.getInstance().destroy();
