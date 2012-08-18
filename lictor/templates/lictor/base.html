@@ -20,7 +20,8 @@
         <script type="text/javascript">
         $(document).ready(function () {
             var registry = {
-                'session_cookie_name': "{{ LICTOR_SESSION_COOKIE_NAME }}"
+                'lictor_dir'          : "/lictor",
+                'session_cookie_name' : "{{ LICTOR_SESSION_COOKIE_NAME }}"
             };
             Lictor.getInstance().run(registry);
         });

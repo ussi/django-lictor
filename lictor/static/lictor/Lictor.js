@@ -62,7 +62,7 @@ var Lictor = go.Class(go.Ext.Nodes, {
     'run': (function (registry) {
         this.registry = registry;
         this.session = new Lictor.Session(this.nodes.session_toggle, registry.session_cookie_name);
-        this.ajax = new Lictor.Ajax();
+        this.ajax = new Lictor.Ajax(registry.lictor_dir);
         this.workspace = new Lictor.Workspace(this.nodes.workspace, this.ajax);
                 
         this.stepRequestInterval = setInterval(this.onStepInterval, this.STEP_REQUEST_PERIOD);
