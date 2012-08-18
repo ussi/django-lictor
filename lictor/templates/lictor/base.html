@@ -9,11 +9,22 @@
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        <script type="text/javascript" src="{% static "/static/jquery.js" %}"></script>
-        <script type="text/javascript" src="{% static "/static/jquery.cookie.js" %}"></script>
         <link href="{% static "/static/screen.css" %}" rel="stylesheet" />
+        <script type="text/javascript" src="{% static "/static/jquery-1.8.0.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "/static/jquery-ui-1.8.23.custom.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "/static/jquery.cookie.js" %}"></script>
+        <script type="text/javascript" src="{% static "/static/go/go.js#Class,Ext" %}"></script>
+        <script type="text/javascript" src="{% static "/static/lictor/Lictor.js" %}"></script>
         <link href="{% static "/static/bootstrap/css/bootstrap.css" %}" rel="stylesheet" />
         <link href="{% static "/static/bootstrap/css/bootstrap-responsive.css" %}" rel="stylesheet" />
+        <script type="text/javascript">
+        $(document).ready(function () {
+            Lictor.getInstance().run();
+        });
+        $(window).unload(function () {
+            Lictor.getInstance().destroy();
+        });
+        </script>
     </head>
     <body>
         <div class="container">
