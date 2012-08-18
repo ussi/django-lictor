@@ -3,13 +3,15 @@
 /**
  * @static Lictor instance
  * @property-read Lictor.Session session
+ * @property-read Lictor.Workspace workspace
  */
 var Lictor = go.Class(go.Ext.Nodes, {
 
     '__static': {
     
         'classes': [
-            "Session"
+            "Session",
+            "Workspace"
         ],
         
         'loadClasses': (function () {
@@ -22,7 +24,7 @@ var Lictor = go.Class(go.Ext.Nodes, {
                 src = dir + "/" + this.classes[i] + ".js";
                 html.push('<script src="' + src + '"></script>');
             }
-            document.write(html);
+            document.write(html.join(""));
         }),    
     
         'getInstance': (function () {
@@ -45,12 +47,13 @@ var Lictor = go.Class(go.Ext.Nodes, {
     '__destruct': (function () {
         this.doneNodes();
         this.session.destroy();
+        this.workspace.destroy();
     }),
     
     'run': (function (registry) {
         this.registry = registry;
         this.session = new Lictor.Session(this.nodes.session_toggle, registry.session_cookie_name);
-        
+        this.workspace = new Lictor.Workspace(this.node.workspace);
     }),
 
     'eoc': null
