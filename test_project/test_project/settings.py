@@ -3,6 +3,8 @@
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+LICTOR_SESSION_COOKIE_NAME = "lictor_session"
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )

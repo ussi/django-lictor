@@ -6,7 +6,7 @@
 
 <script type="text/javascript">
     var lictor_session = {
-        session_cookie_name: "lictor_session",
+        session_cookie_name: "{{ LICTOR_SESSION_COOKIE_NAME }}",
         start: function(){
             $('#session-start').hide();
             $('#session-stop').show();
