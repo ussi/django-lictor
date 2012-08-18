@@ -3,6 +3,8 @@
 /**
  * @class Lictor.Ster
  *
+ * @property {Number} num
+ * @property {String} title 
  * @property {jQuery} node
  * @property {Number} posX
  */
@@ -13,7 +15,8 @@ Lictor.Step = go.Class({
     /**
      * @param {String} title
      */
-    '__construct': (function (title) {
+    '__construct': (function (num, title) {
+        this.num   = num;
         this.title = title;
         this.createNode();
     }),
@@ -21,6 +24,15 @@ Lictor.Step = go.Class({
     'createNode': (function () {
         this.node = $(this.HTML_PATTERN.replace("{{ title }}", this.title));
         this.pos(0);
+    }),
+    
+    'setTitle': (function (title) {
+        this.title = title;
+        this.node.find(".title").text(title);
+    }),
+    
+    'draw': (function (data) {
+        
     }),
     
     'pos': (function (x) {

@@ -3,7 +3,7 @@
 /**
  * @class Lictor.Workspace
  *
- * @param {Lictor.Step[]} steps
+ * @param {Lictor.Step{num}} steps
  * @param {Lictor.Ajax} ajax
  * @param {Number} lastId
  */
@@ -24,17 +24,16 @@ Lictor.Workspace = go.Class([go.Ext.Nodes], {
      * @param {String} title
      * @return {Lictor.Step}
      */
-    'appendStep': (function (title) {
-        var step = new Lictor.Step(title),
+    'appendStep': (function (num, title) {
+        var step = new Lictor.Step(num, title),
             width,
-            len,
-            i;
+            k;
         this.node.prepend(step.node);
-        this.steps.push(step);
         width = step.node.width();
-        for (i = 0, len = this.steps.length - 1; i < len; i += 1) {
-            this.steps[i].shift(width);
+        for (k in this.steps) {
+            this.steps[k].shift(width);
         }
+        this.steps[num] = step;
         return step;
     }),
     
@@ -43,6 +42,27 @@ Lictor.Workspace = go.Class([go.Ext.Nodes], {
     }),
     
     'onSuccessLast': (function (result) {
+        var nums = result['new'],
+            len = nums.length,
+            i,
+            num,
+            step;
+        for (i = 0; i < len; i += 1) {
+            num = nums[i];
+            if (!this.steps[num]) {
+                this.appendStep(num, "loading ...");
+                if (num > this.lastId) {
+                    this.lastId = num;
+                }
+            }
+        }
+        if (result.json) {
+            step = this.steps[result.json.id];
+            if (step) {
+                step.setTitle(result.json.created);
+                step.draw(result.json.json);
+            }
+        }
     }),
 
     'eoc': null
