@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
-# from lictor.views import LictorWorkspaceView
+from lictor.views import LictorWorkspaceView
 
 urlpatterns = patterns('',
-    # url(r'^workspace/', LictorWorkspaceView.as_view(), 'lictor-workspace'),
+    url(r'^$', LictorWorkspaceView.as_view(), name='lictor-workspace'),
 )
