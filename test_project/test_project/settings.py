@@ -98,7 +98,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'lictor.middleware.Tracer',
+    'lictor.middleware.CollectMiddleware',
 )
 
 ROOT_URLCONF = 'test_project.urls'
