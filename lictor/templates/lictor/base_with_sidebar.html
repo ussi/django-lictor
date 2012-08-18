@@ -1,9 +1,20 @@
 {% extends "lictor/base.html" %}
 
 {% block container %}
-    {% block sidebar %}
-    {% endblock %}
+    <div id="sidebar">
+        {% block sidebar %}
+            Sidebar for apps
+        {% endblock %}
+    </div>
 
-    {% block content %}
-    {% endblock %}
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div id="history">
+        {% block history %}
+            History
+        {% endblock %}
+    </div>
 {% endblock %}

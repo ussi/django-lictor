@@ -1,0 +1,27 @@
+#sidebar {
+    float: left;
+    width: 200px;
+}
+
+#content {
+    float: left;
+}
+
+#history {
+    float: right;
+    width: 200px;
+}
+
+#session-toggle {
+    margin-top: 10px;
+    list-style-type: none;
+}
+
+#session-toggle li {
+    display: none;
+    cursor: pointer;
+}
+
+#session-toggle [class^="icon-"], [class*=" icon-"] {
+    background-image: url("icons.png") !important;
+}
