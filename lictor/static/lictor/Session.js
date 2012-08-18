@@ -61,7 +61,7 @@ Lictor.Session = go.Class([go.Ext.Nodes, go.Ext.Events], {
             return;
         }
         this.id = this.createId();
-        $.cookie(this.COOKIE_NAME, this.id);
+        $.cookie(this.COOKIE_NAME, this.id, {'path': "/"});
         this.toggleStart();
         this.fireEvent("start", this.id);
     }),
