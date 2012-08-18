@@ -6,6 +6,7 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^', include('test_project.films.urls')),
     url(r'^lictor/', include('lictor.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

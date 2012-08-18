@@ -1,4 +1,4 @@
-# Django settings for lictor project.
+# Django settings for test_project project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'test_project.films',
     'lictor',
 )
 
