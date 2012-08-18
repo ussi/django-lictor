@@ -1,7 +1,10 @@
 "use strict";
 
 /**
- * @property-read string id
+ * @class Lictor.Session
+ *
+ * @property {String} id
+ *
  * @event start
  * @event stop
  */

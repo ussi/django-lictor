@@ -1,9 +1,11 @@
 "use strict";
 
 /**
- * @static Lictor instance
- * @property-read Lictor.Session session
- * @property-read Lictor.Workspace workspace
+ * @class Lictor
+ *
+ * @static {Lictor} instance
+ * @property {Lictor.Session} session
+ * @property {Lictor.Workspace} workspace
  */
 var Lictor = go.Class(go.Ext.Nodes, {
 
@@ -11,7 +13,8 @@ var Lictor = go.Class(go.Ext.Nodes, {
     
         'classes': [
             "Session",
-            "Workspace"
+            "Workspace",
+            "Step"
         ],
         
         'loadClasses': (function () {
@@ -53,7 +56,7 @@ var Lictor = go.Class(go.Ext.Nodes, {
     'run': (function (registry) {
         this.registry = registry;
         this.session = new Lictor.Session(this.nodes.session_toggle, registry.session_cookie_name);
-        this.workspace = new Lictor.Workspace(this.node.workspace);
+        this.workspace = new Lictor.Workspace(this.nodes.workspace);       
     }),
 
     'eoc': null

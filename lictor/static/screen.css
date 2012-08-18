@@ -30,4 +30,20 @@
     border: 1px solid black;
     width: 750px;
     height: 500px;
+    overflow-x: scroll;
+    position: relative;
+}
+
+.lictor-step {
+    width: 300px;
+    height: 450px;
+    border: 1px solid black;
+    margin: 0;
+    position: absolute;
+}
+
+.lictor-step .title {
+    height: 20px;
+    background-color: #eeeeee;
+    border-bottom: 1px solid black;
 }
