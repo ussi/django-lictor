@@ -1,10 +1,15 @@
 "use strict";
 
-var Lictor = go.Class({
+/**
+ * @static Lictor instance
+ * @property-read Lictor.Session session
+ */
+var Lictor = go.Class(go.Ext.Nodes, {
 
     '__static': {
     
         'classes': [
+            "Session"
         ],
         
         'loadClasses': (function () {
@@ -28,10 +33,18 @@ var Lictor = go.Class({
         })
     },
     
+    'nodes': {
+        'session_toggle': "#session-toggle"
+    },
+    
     '__construct': (function () {
+        this.initNodes($("body"));
+        this.session = new Lictor.Session(this.nodes.session_toggle);
     }),
     
     '__destruct': (function () {
+        this.doneNodes();
+        this.session.destroy();
     }),
     
     'run': (function () {

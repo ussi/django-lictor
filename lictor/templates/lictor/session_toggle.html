@@ -3,33 +3,3 @@
     <li id="session-start"><i class="icon-play"></i> {% trans "Start session" %}</li>
     <li id="session-stop"><i class="icon-stop"></i> {% trans "Stop session" %}</li>
 </ul>
-
-<script type="text/javascript">
-    var lictor_session = {
-        session_cookie_name: "{{ LICTOR_SESSION_COOKIE_NAME }}",
-        start: function(){
-            $('#session-start').hide();
-            $('#session-stop').show();
-            $.cookie(lictor_session.session_cookie_name, (new Date()).getTime());
-        },
-        stop: function(){
-            $('#session-start').show();
-            $('#session-stop').hide();
-            $.removeCookie(lictor_session.session_cookie_name);
-        }
-    }
-    $(document).ready(function(){
-        var current_cookie = $.cookie(lictor_session.session_cookie_name);
-        if (current_cookie) {
-            lictor_session.start();
-        } else {
-            lictor_session.stop();
-        }
-        $('#session-start').click(function(){
-            lictor_session.start()
-        });
-        $('#session-stop').click(function(){
-            lictor_session.stop()
-        });
-    });
-</script>
