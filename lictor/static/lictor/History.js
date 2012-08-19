@@ -3,7 +3,7 @@
 /**
  * @class Lictor.History
  *
- * @event Lictro.History.click
+ * @event Lictor.History.click
  */
 Lictor.History = go.Class([go.Ext.Nodes, go.Ext.Events], {
 
