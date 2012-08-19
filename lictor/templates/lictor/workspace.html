@@ -9,7 +9,7 @@
         {% for app in available_apps %}
             <li>
                 <label for="{{ app }}" class="checkbox inline">
-                    <input id="{{ app }}" name="app" type="checkbox" checked="checked" /> <span>{{ app }}</span>
+                    <input id="{{ app }}" value="{{ app }}" name="app" type="checkbox" checked="checked" /> <span>{{ app }}</span>
                 </label>
             </li>
         {% endfor %}
