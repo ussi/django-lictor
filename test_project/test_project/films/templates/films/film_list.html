@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div style="float:right">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Add" />
+    </form>
+</div>
+<div>
     <ul>
         {% for film in object_list %}
             <li>
@@ -12,13 +20,13 @@
 
     {% if is_paginated %}
         <div>
-		    {% if page_obj.has_previous %}
+            {% if page_obj.has_previous %}
                 <a href="{% url films-paged page=page_obj.previous_page_number %}">Previous</a>
             {% endif %}
-		    {% if page_obj.has_next %}
+            {% if page_obj.has_next %}
                 <a href="{% url films-paged page=page_obj.next_page_number %}">Next</a>
             {% endif %}
         </div>
     {% endif %}
-
+</div>
 {% endblock %}
