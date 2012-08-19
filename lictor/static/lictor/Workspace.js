@@ -3,15 +3,15 @@
 /**
  * @class Lictor.Workspace
  *
- * @param {Lictor.Step{num}} steps
- * @param {Lictor.Step[]} listSteps
- * @param {Lictor.Ajax} ajax
- * @param {Lictor.History} history
- * @param {Number} lastId
- * @param {Number} pos
- * @param {Number} checkPosInterval
- * @param {Number} stepWidth
- * @param {Number} width
+ * @property {Lictor.Step{num}} steps
+ * @property {Lictor.Step[]} listSteps
+ * @property {Lictor.Ajax} ajax
+ * @property {Lictor.History} history
+ * @property {Number} lastId
+ * @property {Number} pos
+ * @property {Number} checkPosInterval
+ * @property {Number} stepWidth
+ * @property {Number} width
  */
 Lictor.Workspace = go.Class([go.Ext.Nodes], {
 
@@ -34,11 +34,6 @@ Lictor.Workspace = go.Class([go.Ext.Nodes], {
         this.doneNodes();
     }),
     
-    /**
-     * @param {Number} id
-     * @param {String} title
-     * @return {Lictor.Step}
-     */
     'appendStep': (function (id, title) {
         var step = new Lictor.Step(id, title, this.ajax),
             width,

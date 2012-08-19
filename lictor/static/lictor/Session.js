@@ -6,9 +6,9 @@
  * @property {String} id
  * @property {String[]} apps
  *
- * @event start
- * @event stop
- * @event loadapps
+ * @event Lictor.Session.start
+ * @event Lictor.Session.stop
+ * @event Lictor.Session.loadapps
  */
 Lictor.Session = go.Class([go.Ext.Nodes, go.Ext.Events], {
 
