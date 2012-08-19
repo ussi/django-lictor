@@ -43,6 +43,24 @@ Lictor.Sidebar = go.Class([go.Ext.Nodes, go.Ext.Events], {
         }
         this.fireEvent("change", apps);
     }),
+    
+    'setAppsList': (function (apps) {
+        var hash = {},
+            len  = apps.length,
+            i,
+            item,
+            napps = this.nodes.apps,
+            name;                      
+        for (i = 0; i < len; i += 1) {
+            hash[apps[i]] = true;
+        }       
+        len = napps.length;
+        for (i = 0; i < len; i += 1) {
+            item = napps.eq(i);
+            name = item.val(); 
+            item[0].checked = hash[name] ? true : false;
+        }
+    }),
 
     'eoc': null
 });

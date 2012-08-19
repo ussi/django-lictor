@@ -8,6 +8,7 @@
  *
  * @event start
  * @event stop
+ * @event loadapps
  */
 Lictor.Session = go.Class([go.Ext.Nodes, go.Ext.Events], {
 
@@ -32,16 +33,16 @@ Lictor.Session = go.Class([go.Ext.Nodes, go.Ext.Events], {
         var cook;
         this.initNodes(node);
         this.COOKIE_NAME = cookieName || this.COOKIE_NAME;
-        cook = $.cookie(this.COOKIE_NAME);
+        this.apps = [];
+        cook = $.cookie(this.COOKIE_NAME);       
         if (cook) {
-            this.parseCookieValue(cook);
+            this.parseCookieValue(cook);                      
         }
         if (this.id) {
             this.toggleStart();
         } else {
             this.toggleStop();
         }
-        this.apps = [];
     }),
     
     '__destruct': (function () {
@@ -104,7 +105,7 @@ Lictor.Session = go.Class([go.Ext.Nodes, go.Ext.Events], {
     }),
     
     'parseCookieValue': (function (value) {
-        value = $.parseJSON(value);
+        value = $.parseJSON(value);       
         this.id = value.sid;
         this.apps = value.apps || [];
     }),

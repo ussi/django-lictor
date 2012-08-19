@@ -68,16 +68,20 @@ var Lictor = go.Class(go.Ext.Nodes, {
     }),
     
     'run': (function (registry) {
-        this.registry  = registry;
+        this.registry  = registry;        
         this.session   = new Lictor.Session(this.nodes.session_toggle, registry.session_cookie_name);
         this.ajax      = new Lictor.Ajax(registry.lictor_dir, registry.csrf);
         this.history   = new Lictor.History(this.nodes.history);
         this.workspace = new Lictor.Workspace(this.nodes.workspace, this.ajax, this.history);        
         this.sidebar   = new Lictor.Sidebar(this.nodes.sidebar);
+        
+        this.sidebar.addEventListener("change", this.onChangeApps);
+        if (this.session.id) {
+            this.sidebar.setAppsList(this.session.apps);
+        }
                 
         this.stepRequestInterval = setInterval(this.onStepInterval, this.STEP_REQUEST_PERIOD);
         this.onStepInterval();
-        this.sidebar.addEventListener("change", this.onChangeApps);
     }),
 
     'onStepInterval': (function () {
