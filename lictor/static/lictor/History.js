@@ -2,8 +2,10 @@
 
 /**
  * @class Lictor.History
+ *
+ * @event Lictro.History.click
  */
-Lictor.History = go.Class([go.Ext.Nodes], {
+Lictor.History = go.Class([go.Ext.Nodes, go.Ext.Events], {
 
     'nodes': {
         'list': "ul#history-step"
@@ -18,14 +20,17 @@ Lictor.History = go.Class([go.Ext.Nodes], {
     }),
     
     'append': (function (id, title) {
-        var html = '<li><a href="javascript:void(0)" data-id="' + id + '">' + title + '</a></li>',
-            item = $(html);
+        var html = '<li><a href="javascript:void(0)">' + title + '</a></li>',
+            item = $(html),
+            handler = this.onClickItem;    
         this.nodes.list.prepend(item);
-        item.click(this.onClickItem);
+        item.find("a").click(function () {
+            handler(id);
+        });
     }),
     
-    'onClickItem': (function (e) {
-
+    'onClickItem': (function (id) {
+        this.fireEvent("click", id);
     }),
 
     'eoc': null

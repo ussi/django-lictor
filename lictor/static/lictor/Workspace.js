@@ -27,6 +27,7 @@ Lictor.Workspace = go.Class([go.Ext.Nodes], {
         this.checkPosInterval = setInterval(this.onCheckPos, this.CHECK_POS_PERIOD);
         this.pos = this.node.scrollLeft();
         this.width = this.node.width();     
+        this.history.addEventListener("click", this.onClickHistory);
     }),
     
     '__destruct': (function () {
@@ -34,11 +35,12 @@ Lictor.Workspace = go.Class([go.Ext.Nodes], {
     }),
     
     /**
+     * @param {Number} id
      * @param {String} title
      * @return {Lictor.Step}
      */
-    'appendStep': (function (num, title) {
-        var step = new Lictor.Step(num, title, this.ajax),
+    'appendStep': (function (id, title) {
+        var step = new Lictor.Step(id, title, this.ajax),
             width,
             k;
         this.node.prepend(step.node);
@@ -47,9 +49,9 @@ Lictor.Workspace = go.Class([go.Ext.Nodes], {
         for (k in this.steps) {
             this.steps[k].shift(width);
         }
-        this.steps[num] = step;
+        this.steps[id] = step;
         this.listSteps.push(step);
-        this.history.append(step.num, step.title);
+        this.history.append(step.id, step.title);
         return step;
     }),
     
@@ -101,6 +103,17 @@ Lictor.Workspace = go.Class([go.Ext.Nodes], {
     
     'onCheckPos': (function () {
         this.checkPos(false);
+    }),
+    
+    'onClickHistory': (function (e) {
+        var id = e.data,
+            step = this.steps[id],
+            pos;
+        if (step) {
+            pos = step.posX;
+            this.node.scrollLeft(pos);
+            this.checkPos();
+        }         
     }),
 
     'eoc': null
