@@ -45,25 +45,17 @@ Lictor.Workspace = go.Class([go.Ext.Nodes], {
     }),
     
     'onSuccessLast': (function (result) {
-        var nums = result['new'],
-            len = nums.length,
+        var items = result['new'],
+            len = items.length,
             i,
-            num,
-            step;
+            item;
         for (i = 0; i < len; i += 1) {
-            num = nums[i];
-            if (!this.steps[num]) {
-                this.appendStep(num, "loading ...");
-                if (num > this.lastId) {
-                    this.lastId = num;
+            item = items[i];
+            if (!this.steps[item[0]]) {
+                this.appendStep(item[0], item[1]);
+                if (item[0] > this.lastId) {
+                    this.lastId = item[0];
                 }
-            }
-        }
-        if (result.json) {
-            step = this.steps[result.json.id];
-            if (step) {
-                step.setTitle(result.json.created);
-                step.draw(result.json.json);
             }
         }
     }),
