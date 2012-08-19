@@ -3,7 +3,7 @@
 /**
  * @class Lictor.Sidebar
  * 
- * @event change
+ * @event Lictor.Sidebar.change
  */
 Lictor.Sidebar = go.Class([go.Ext.Nodes, go.Ext.Events], {
 

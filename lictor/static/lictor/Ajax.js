@@ -2,6 +2,9 @@
 
 /**
  * @class Lictor.Ajax
+ *
+ * @property {String} dir
+ * @property {String} csrf
  */
 Lictor.Ajax = go.Class({
     

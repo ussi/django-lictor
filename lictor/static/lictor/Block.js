@@ -3,16 +3,16 @@
 /**
  * @class Lictor.Block
  *
- * @param {jQuery} node
- * @param {hash} params
- * @param {hash{width,height}} size
- * @param {hash{x,y}} position
- * @param {Number} width
- * @param {Number} height   
- * @param {Number} lineHeight
- * @param {jQuery} container
- * @param {jsPlumb} plumb
- * @param {Lictor.Block[]} childs
+ * @property {jQuery} node
+ * @property {hash} params
+ * @property {hash{width,height}} size
+ * @property {hash{x,y}} position
+ * @property {Number} width
+ * @property {Number} height   
+ * @property {Number} lineHeight
+ * @property {jQuery} container
+ * @property {jsPlumb} plumb
+ * @property {Lictor.Block[]} childs
  */
 Lictor.Block = go.Class({
 
