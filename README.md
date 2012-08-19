@@ -10,7 +10,7 @@ During the execution of your project will collect traceback and drawn in the int
     
 The demo project: http://lictor.tetronix.org/ and http://lictor.tetronix.org/lictor/
 
-settings.py
+Add to settings.py:
 --------
 
     INSTALLED_APPS = (
@@ -23,14 +23,15 @@ settings.py
     lictor.activate()
 
 
-urls.py
+Add to urls.py:
 -------
 
     urlpatterns = patterns('',
         url(r'^lictor/', include('lictor.urls')),
     )
 
-South migrate:
+South migrate and runserver:
 -------
 
     ./manage.py migrate lictor
+    ./manage.py runserver
