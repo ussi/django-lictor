@@ -33,6 +33,13 @@ Lictor.Ajax = go.Class({
         };
         this.request(this.ACTION_LAST, data, success);
     }),
+    
+    'requestGet': (function (id, success) {
+        var data = {
+            'id': id
+        };
+        this.request(this.ACTION_GET, data, success);
+    }),
 
     'eoc': null
 });

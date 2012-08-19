@@ -14,14 +14,14 @@ Lictor.Block = go.Class({
 
     '__construct': (function (params, position, container, plumb) {
         this.params = params;
+        this.container = container;
+        this.plumb = plumb;
+        this.createNode();
         if (position) {
             this.pos(position);
         } else {
             this.pos({'x': 0, 'y': 0});
-        }
-        this.container = container;
-        this.plumb = plumb;
-        this.createNode();
+        }        
     }),
     
     'getId': (function () {
@@ -56,7 +56,7 @@ Lictor.Block = go.Class({
     }),
     
     'createNode': (function () {
-        this.node = $('<div class="lictor-block"></div>');
+        this.node = $('<div class="lictor-block">' + this.params.name + '</div>');
         this.container.append(this.node);
     }),
     

@@ -1,6 +1,6 @@
 #sidebar {
     float: left;
-    width: 200px;
+    width: 150px;
 }
 
 #content {
@@ -9,7 +9,10 @@
 
 #history {
     float: right;
-    width: 200px;
+    width: 150px;
+    border: 1px solid black;
+    height: 1000px;
+    overflow-y: scroll;   
 }
 
 #session-toggle {
@@ -28,21 +31,15 @@
 
 #workspace {
     border: 1px solid black;
-    width: 750px;
-    height: 500px;
+    width: 850px;
+    height: 1000px;
     overflow-x: scroll;
     position: relative;
 }
 
-#history {
-    border: 1px solid black;
-    height: 500px;
-    overflow-y: scroll;
-}
-
 .lictor-step {
-    width: 300px;
-    height: 450px;
+    width: 600px;
+    height: 100%;
     border: 1px solid black;
     margin: 0;
     position: absolute;
@@ -54,10 +51,22 @@
     border-bottom: 1px solid black;
 }
 
+.lictor-step .content {
+    background-color: white;   
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.lictor-step .loading {
+    background-color: #eeeeee !important;
+}
+
 .lictor-block {
     width: 150px;
     height: 50px;
     margin: 0;
     padding: 0;
     border: 1px solid black;
+    position: absolute;
 }
