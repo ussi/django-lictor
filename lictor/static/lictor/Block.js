@@ -94,7 +94,7 @@ Lictor.Block = go.Class({
     
     'createNode': (function () {
         var type = this.params.type.toLowerCase();
-        this.node = $('<div class="lictor-block ' + type + '">' + this.params.name + '<br />' + this.params.id + '</div>');
+        this.node = $('<div class="lictor-block ' + type + '">' + this.params.name + '<br />' + this.params.module + '</div>');
         this.container.append(this.node);
         this.width  = this.node.width();
         this.height = this.node.height();
