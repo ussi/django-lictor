@@ -30,15 +30,15 @@ class Tracer(object):
 
 class Graph(object):
     frames = []
-    apps = []
+    available_apps = []
     graph = SortedDict()
 
     def __init__(self, frames):
         self.frames = frames
         # # Exclude some paths if it is not appear in INSTALLED_APPS
         # for app in settings.INSTALLED_APPS + ('django', ):
-        #     self.apps.append(import_module(app).__file__.rsplit('/', 1)[0])
-        # self.apps.remove(os.path.dirname(__file__))  # Remove lictor
+        #     self.available_apps.append(import_module(app).__file__.rsplit('/', 1)[0])
+        # self.available_apps.remove(os.path.dirname(__file__))  # Remove lictor
 
     def add(self, iframe):
         """Add iframe to graph"""
@@ -62,7 +62,7 @@ class Graph(object):
 
     # def is_available_frame(self, path=""):
     #     """Check frame.f_code.co_filename in INSTALLED_APPS"""
-    #     for app_path in self.apps:
+    #     for app_path in self.available_apps:
     #         if app_path in path:
     #             return True
     #     return False
@@ -97,10 +97,9 @@ class FrameInspector(object):
         """
         from django.db.models.query import QuerySet
         from django.forms import ModelForm, Form
+
         filename = self.get_filename()
-        # if "models/manager" in filename and "__get__" in self.frame.f_code.co_name:
-        #     # models.Manager descriptor
-        #     return self.frame.f_locals['self'].manager.model, "Manager"
+
         if "django/core/urlresolvers" in filename:
             # urlresolver
             # from django.core.urlresolvers import ResolverMatch
