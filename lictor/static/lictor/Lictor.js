@@ -53,7 +53,7 @@ var Lictor = go.Class(go.Ext.Nodes, {
         'sidebar'        : "#sidebar"
     },
     
-    'STEP_REQUEST_PERIOD': 3000,
+    'STEP_REQUEST_PERIOD': 5000,
     
     '__construct': (function () {
         this.initNodes($("body"));
