@@ -68,7 +68,7 @@ class Graph(object):
                 return iframe
             iframe = iframe.parent
 
-    def is_available_frame(self, path=""):
+    def is_available_frame(self, path):
         """Check frame.f_code.co_filename in self.available_apps"""
         for app_path in self.available_apps:
             if app_path in path:
@@ -116,7 +116,7 @@ class FrameInspector(object):
             # if instance.__class__ is ResolverMatch:
             #     self.frame.f_locals.get('func')
             #     return "Url"
-            return "", self.frame.f_locals.get('path'), "Url"
+            return "urlpatterns", self.frame.f_locals.get('path'), "Url"
 
         if "django/views" in filename:
             instance = self.frame.f_locals.get('self')
@@ -134,6 +134,7 @@ class FrameInspector(object):
                 return type_of_instance.__module__, type_of_instance.__name__, "ModelForm"
             if issubclass(type_of_instance, Form):
                 return type_of_instance.__module__, type_of_instance.__name__, "Form"
+
         return "", "", ""
 
     def get_id(self):
