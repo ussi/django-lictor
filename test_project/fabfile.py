@@ -44,12 +44,6 @@ def pip_install():
 def runfcgi_stop():
     production_env()
     run('kill `cat {pidfile}`'.format(pidfile=env.pidfile))
-    try:
-        from time import sleep
-        sleep(2)
-        run('kill -9 `cat {pidfile}`'.format(pidfile=env.pidfile))
-    except:
-        pass
 
 
 @roles('production')
