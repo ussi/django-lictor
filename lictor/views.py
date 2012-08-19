@@ -1,3 +1,4 @@
+import simplejson
 from django.views.generic import TemplateView, View
 from django.conf import settings
 
@@ -32,5 +33,6 @@ class LictorTraceGet(JsonResponseMixin, View):
     def dispatch(self, request):
         context = {}
         trace = self.model.objects.filter(pk=request.REQUEST.get('id')).values()[0]
-        context[trace['id']] = trace
+        trace['json'] = simplejson.loads(trace['json'])
+        context[trace['id']] = trace        
         return self.render_to_response(context)
