@@ -1,6 +1,14 @@
 django-lictor
 =============
 
+**Reusable application for visualization of Django-project.**
+
+You need to install it (see below), then the interface will be available by address http://example.org/lictor/.
+During the execution of your project will collect traceback and drawn in the interface "django-lictor".
+
+    pip install -e git://github.com/ussi/django-lictor.git#egg=django-lictor
+    
+The demo project: http://lictor.tetronix.org/ and http://lictor.tetronix.org/lictor/
 
 settings.py
 --------
