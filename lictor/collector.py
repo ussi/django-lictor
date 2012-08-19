@@ -38,8 +38,9 @@ class Graph(object):
         self.frames = frames
         self.session = session
 
-        available_apps = available_apps or settings.INSTALLED_APPS
-        for app in available_apps + ('django', ):
+        available_apps = (available_apps or list(settings.INSTALLED_APPS))
+        available_apps.append('django')
+        for app in available_apps:
             self.available_apps.append(import_module(app).__file__.rsplit('/', 1)[0])
         try:
             self.available_apps.remove(os.path.dirname(__file__))  # Remove lictor
