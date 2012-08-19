@@ -1,6 +1,11 @@
 "use strict";
 
-Lictor.Sidebar = go.Class([go.Ext.Nodes], {
+/**
+ * @class Lictor.Sidebar
+ * 
+ * @event change
+ */
+Lictor.Sidebar = go.Class([go.Ext.Nodes, go.Ext.Events], {
 
     'nodes': {
         'apps': "input[name=app]"
@@ -36,7 +41,7 @@ Lictor.Sidebar = go.Class([go.Ext.Nodes], {
                 apps.push(item.val());
             }
         }
-        console.log(apps);
+        this.fireEvent("change", apps);
     }),
 
     'eoc': null

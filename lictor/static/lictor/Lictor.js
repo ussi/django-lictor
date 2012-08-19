@@ -77,6 +77,7 @@ var Lictor = go.Class(go.Ext.Nodes, {
                 
         this.stepRequestInterval = setInterval(this.onStepInterval, this.STEP_REQUEST_PERIOD);
         this.onStepInterval();
+        this.sidebar.addEventListener("change", this.onChangeApps);
     }),
 
     'onStepInterval': (function () {
@@ -84,6 +85,11 @@ var Lictor = go.Class(go.Ext.Nodes, {
             return;
         }
         this.workspace.requestNewSteps(this.session.id);
+    }),
+    
+    'onChangeApps': (function (e) {
+        var apps = e.data;
+        this.session.setAppsList(apps);
     }),
 
     'eoc': null
