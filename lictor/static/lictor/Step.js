@@ -12,7 +12,7 @@
  */
 Lictor.Step = go.Class({
 
-    'HTML_PATTERN': "<div class='lictor-step'><div class='title'>{{ title }}</div><div class='content'></div></div>",
+    'HTML_PATTERN': "<div class='lictor-step'><div class='title'>{{ title }}</div><div class='content loading'></div></div>",
 
     /**
      * @param {String} title
