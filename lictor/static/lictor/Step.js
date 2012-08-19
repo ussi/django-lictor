@@ -7,6 +7,8 @@
  * @property {String} title 
  * @property {jQuery} node
  * @property {Number} posX
+ * @property {jsPlumb} plumb
+ * @property {Lictor.Block{id}} blocks
  */
 Lictor.Step = go.Class({
 
@@ -18,6 +20,8 @@ Lictor.Step = go.Class({
     '__construct': (function (num, title) {
         this.num   = num;
         this.title = title;
+        this.plumb = jsPlumb.getInstance();
+        this.blocks = {};
         this.createNode();
     }),
     
@@ -42,6 +46,24 @@ Lictor.Step = go.Class({
     
     'shift': (function (d) {
         this.pos(this.posX + d);
+    }),
+    
+    'createBlock': (function (params) {
+        var block = new Lictor.Block(params, position, this.node, this.plumb);
+        this.blocks[block.id] = block;        
+    }),
+    
+    'connectBlocks': (function () {        
+        var id, 
+            block, 
+            parent;
+        for (id in this.blocks) {
+            block = this.blocks[id];
+            parent = this.blocks[block.getParentId()];
+            if (parent) {
+                parent.appendChild(block);
+            }
+        }
     }),
     
     'eoc': null

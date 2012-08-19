@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * @class Ajax
+ * @class Lictor.Ajax
  */
 Lictor.Ajax = go.Class({
     
