@@ -13,10 +13,15 @@
  * @property {Lictor.Block{id}} blocks
  * @property {Boolean} drawed
  * @property {Object} trace
+ * @property {Lictor.Blocks[]} roots
  */
 Lictor.Step = go.Class({
 
     'HTML_PATTERN': "<div class='lictor-step'><div class='title'>{{ title }}</div><div class='content loading'></div></div>",
+
+    'PLUMB_DEFAULT': {
+        'Connector' : [ "StateMachine"]
+    },
 
     /**
      * @param {String} title
@@ -26,6 +31,7 @@ Lictor.Step = go.Class({
         this.title = title;
         this.ajax  = ajax;
         this.plumb = jsPlumb.getInstance();
+        this.plumb.importDefaults(this.PLUMB_DEFAULT);
         this.blocks = {};
         this.drawed = false;
         this.createNode();
@@ -52,22 +58,9 @@ Lictor.Step = go.Class({
     
     'createBlock': (function (params, position) {
         var block = new Lictor.Block(params, position, this.container, this.plumb);
-        this.blocks[block.id] = block;        
+        this.blocks[block.getId()] = block;        
     }),
-    
-    'connectBlocks': (function () {        
-        var id, 
-            block, 
-            parent;
-        for (id in this.blocks) {
-            block = this.blocks[id];
-            parent = this.blocks[block.getParentId()];
-            if (parent) {
-                parent.appendChild(block);
-            }
-        }
-    }),
-    
+ 
     'onVisible': (function () {
         if (this.drawed) {
             return;
@@ -87,6 +80,7 @@ Lictor.Step = go.Class({
         this.container = this.node.find(".content");
         this.container.removeClass("loading");
         this.createAllBlocks();
+        this.buildTree();
         this.positionAllBLocks();
         this.connectAllBlocks();
     }),
@@ -100,10 +94,44 @@ Lictor.Step = go.Class({
         }
     }),
     
+    'buildTree': (function () {
+        var roots  = [],
+            blocks = this.blocks,
+            block,
+            k;
+        for (k in blocks) {
+            block  = blocks[k];
+            parent = blocks[block.getParentId()];           
+            if (parent) {
+                parent.appendChild(block);
+            } else {
+                roots.push(block);
+            }
+        }
+        this.roots = roots;     
+    }),
+  
     'positionAllBLocks': (function () {
+        var roots = this.roots,
+            len = roots.length,
+            i,
+            npos = {
+                'x': 10,
+                'y': 10
+            };             
+        for (i = 0; i < len; i += 1) {
+            roots[i].positionLine(npos);
+            npos.y += roots[i].lineHeight + 20;
+        }
     }),
     
     'connectAllBlocks': (function () {
+        var roots = this.roots,
+            len = roots.length,
+            i;          
+        for (i = 0; i < len; i += 1) {
+            roots[i].connectAllChilds();
+        }    
     }),
     
     'eoc': null
