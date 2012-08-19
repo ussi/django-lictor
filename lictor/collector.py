@@ -49,7 +49,8 @@ class Graph(object):
             "type": iframe.get_django_type(),
             "file": iframe.get_filename(),
             "line": iframe.get_lineno(),
-            "name": iframe.get_django_name(),
+            "module": iframe.get_module(),
+            "name": iframe.get_name(),
             "pid": parent_iframe and parent_iframe.get_id()
         }
 
@@ -71,7 +72,7 @@ class Graph(object):
         """Build the graph of call stack and save result to Trace model"""
         for frame, event, arg in self.frames:
             iframe = FrameInspector(frame)
-            if iframe and iframe.get_django_name():
+            if iframe and iframe.get_name():
                 self.add(iframe)
         from lictor.models import Trace
         Trace.objects.create(
@@ -81,13 +82,12 @@ class Graph(object):
 
 class FrameInspector(object):
     """Extractor useful information from frame"""
-    django_name = "FakeName"
     django_type = "FakeType"
 
     def __init__(self, frame):
         assert frame
         self.frame = frame
-        self.django_name, self.django_type = self.inspect()
+        self.module, self.name, self.django_type = self.inspect()
 
     def inspect(self):
         """Extract additional infromation from frame
@@ -107,25 +107,25 @@ class FrameInspector(object):
             # if instance.__class__ is ResolverMatch:
             #     self.frame.f_locals.get('func')
             #     return "Url"
-            return self.frame.f_locals.get('path'), "Url"
+            return "", self.frame.f_locals.get('path'), "Url"
+
         if "django/views" in filename:
             instance = self.frame.f_locals.get('self')
             if instance:
-                return self.get_name_by_type(instance.__class__), "View"
+                return instance.__class__.__module__, instance.__class__.__name__, "View"
+
         if "django/db/models/query.py" in filename:
             instance = self.frame.f_locals.get('self')
             if isinstance(instance, (QuerySet, )):
-                return self.get_name_by_type(instance.model), "Model"
+                return instance.model.__module__, instance.model.__name__, "Model"
+
         if "django/forms" in filename:
             type_of_instance = type(self.frame.f_locals.get('self'))
             if issubclass(type_of_instance, ModelForm):
-                return self.get_name_by_type(type_of_instance), "ModelForm"
+                return type_of_instance.__module__, type_of_instance.__name__, "ModelForm"
             if issubclass(type_of_instance, Form):
-                return self.get_name_by_type(type_of_instance), "Form"
-        return "", ""
-
-    def get_name_by_type(self, type_of_instance):
-        return ".".join([type_of_instance.__module__, type_of_instance.__name__])
+                return type_of_instance.__module__, type_of_instance.__name__, "Form"
+        return "", "", ""
 
     def get_id(self):
         """Return identificator of frame, for binging frame stack"""
@@ -140,8 +140,11 @@ class FrameInspector(object):
     def get_django_type(self):
         return self.django_type
 
-    def get_django_name(self):
-        return self.django_name
+    def get_module(self):
+        return self.module
+
+    def get_name(self):
+        return self.name
 
     @property
     def parent(self):
