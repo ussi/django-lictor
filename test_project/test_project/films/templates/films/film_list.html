@@ -1,7 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <div style="float:right">
+    <a href="{% url lictor-workspace%}"><img style="padding:2px;border:dotted 2px gray" src="{% static "/static/screenshots/lictor_thumbnail.png" %}" /></a><br />
+	Goto <b>lictor</b> workspace and click to<br /> "<span style="color:red">Start session</span>", later surf the your<br /> django-project and look a results in <b>lictor</b>!
+</div>
+<div>
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
