@@ -12,6 +12,7 @@
         <link href="{% static "/static/screen.css" %}" rel="stylesheet" />
         <script type="text/javascript" src="{% static "/static/jquery-1.8.0.min.js" %}"></script>
         <script type="text/javascript" src="{% static "/static/jquery-ui-1.8.23.custom.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "/static/jsplumb.js" %}"></script>        
         <script type="text/javascript" src="{% static "/static/jquery.cookie.js" %}"></script>
         <script type="text/javascript" src="{% static "/static/go/go.js#Class,Ext" %}"></script>
         <script type="text/javascript" src="{% static "/static/lictor/Lictor.js" %}"></script>
@@ -20,7 +21,7 @@
         <script type="text/javascript">
         $(document).ready(function () {
             var registry = {
-                'lictor_dir'          : "/lictor",
+                'lictor_dir'          : "{% url lictor-workspace %}",
                 'session_cookie_name' : "{{ LICTOR_SESSION_COOKIE_NAME }}",
                 'csrf'                : "{{ csrf_token }}"
             };

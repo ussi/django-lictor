@@ -17,7 +17,8 @@ var Lictor = go.Class(go.Ext.Nodes, {
             "Ajax",
             "Session",
             "Workspace",
-            "Step"
+            "Step",
+            "Block"
         ],
         
         'loadClasses': (function () {

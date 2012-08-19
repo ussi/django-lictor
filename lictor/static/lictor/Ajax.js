@@ -1,12 +1,12 @@
 "use strict";
 
 /**
- * @class Ajax
+ * @class Lictor.Ajax
  */
 Lictor.Ajax = go.Class({
     
-    'ACTION_LAST' : "{{ lictor_dir }}/last/",
-    'ACTION_GET'  : "{{ lictor_dir }}/get/",
+    'ACTION_LAST' : "{{ lictor_dir }}last/",
+    'ACTION_GET'  : "{{ lictor_dir }}get/",
     
     '__construct': (function (dir, csrf) {
         this.dir  = dir;
