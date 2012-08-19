@@ -12,6 +12,9 @@ class LictorWorkspaceView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(LictorWorkspaceView, self).get_context_data(**kwargs)
         context['LICTOR_SESSION_COOKIE_NAME'] = settings.LICTOR_SESSION_COOKIE_NAME
+        apps = list(settings.INSTALLED_APPS)
+        apps.remove('lictor')
+        context['available_apps'] = apps
         return context
 
 
@@ -34,5 +37,5 @@ class LictorTraceGet(JsonResponseMixin, View):
         context = {}
         trace = self.model.objects.filter(pk=request.REQUEST.get('id')).values()[0]
         trace['json'] = simplejson.loads(trace['json'])
-        context[trace['id']] = trace        
+        context[trace['id']] = trace
         return self.render_to_response(context)

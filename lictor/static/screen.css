@@ -1,6 +1,6 @@
 #sidebar {
     float: left;
-    width: 150px;
+    width: 190px;
 }
 
 #content {
@@ -10,9 +10,10 @@
 #history {
     float: right;
     width: 150px;
-    border: 1px solid black;
     height: 1000px;
-    overflow-y: scroll;   
+}
+#history li {
+    padding-bottom: 10px;
 }
 
 #session-toggle {
@@ -31,7 +32,7 @@
 
 #workspace {
     border: 1px solid black;
-    width: 850px;
+    width: 820px;
     height: 1000px;
     overflow-x: scroll;
     position: relative;
