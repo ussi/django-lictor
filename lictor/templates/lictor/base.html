@@ -20,7 +20,7 @@
         <script type="text/javascript">
         $(document).ready(function () {
             var registry = {
-                'lictor_dir'          : "/lictor",
+                'lictor_dir'          : "{% url lictor-workspace %}",
                 'session_cookie_name' : "{{ LICTOR_SESSION_COOKIE_NAME }}",
                 'csrf'                : "{{ csrf_token }}"
             };
