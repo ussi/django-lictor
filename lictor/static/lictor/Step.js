@@ -50,8 +50,8 @@ Lictor.Step = go.Class({
         this.pos(this.posX + d);
     }),
     
-    'createBlock': (function (params) {
-        var block = new Lictor.Block(params, position, this.node, this.plumb);
+    'createBlock': (function (params, position) {
+        var block = new Lictor.Block(params, position, this.container, this.plumb);
         this.blocks[block.id] = block;        
     }),
     
@@ -85,7 +85,25 @@ Lictor.Step = go.Class({
     
     'draw': (function () {
         this.container = this.node.find(".content");
-        this.container.removeClass("loading");    
+        this.container.removeClass("loading");
+        this.createAllBlocks();
+        this.positionAllBLocks();
+        this.connectAllBlocks();
+    }),
+    
+    'createAllBlocks': (function () {
+        var trace = this.trace,
+            len = trace.length,
+            i;
+        for (i = 0; i < len; i += 1) {
+            this.createBlock(trace[i]);
+        }
+    }),
+    
+    'positionAllBLocks': (function () {
+    }),
+    
+    'connectAllBlocks': (function () {
     }),
     
     'eoc': null
