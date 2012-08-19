@@ -13,17 +13,17 @@ def activate():
     for collect call stack and build graph.
     """
     @replace_call(BaseHandler.get_response)
-    def get_response(func, instance, response):
-        session = response.COOKIES.get(settings.LICTOR_SESSION_COOKIE_NAME)
+    def get_response(func, instance, request):
+        session = request.COOKIES.get(settings.LICTOR_SESSION_COOKIE_NAME)
         if not session or\
-               response.META['PATH_INFO'].startswith(reverse('lictor-workspace')) or\
-               response.META['PATH_INFO'].startswith(settings.STATIC_URL):
-            return func(instance, response)
+               request.META['PATH_INFO'].startswith(reverse('lictor-workspace')) or\
+               request.META['PATH_INFO'].startswith(settings.STATIC_URL):
+            return func(instance, request)
 
         # Collect trace
         tracer = Tracer()
         tracer.start()
-        result = func(instance, response)
+        result = func(instance, request)
         tracer.stop()
 
         # Build graph in thread
