@@ -1,7 +1,7 @@
 django-lictor
 =============
 
-**Reusable application for visualization of Django-project.**
+**Reusable application for visualization your Django-projects via stack trace.**
 
 You need to install it (see below), then the interface will be available by address http://example.org/lictor/.
 During the execution of your project will collect traceback and drawn in the interface "django-lictor".
@@ -30,7 +30,7 @@ urls.py
         url(r'^lictor/', include('lictor.urls')),
     )
 
-And migrate
+South migrate:
 -------
 
     ./manage.py migrate lictor
