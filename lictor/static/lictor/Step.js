@@ -3,12 +3,16 @@
 /**
  * @class Lictor.Ster
  *
- * @property {Number} num
+ * @property {Number} id
  * @property {String} title 
+ * @property {Lictor.Ajax} ajax
+ * @property {jQuery} container
  * @property {jQuery} node
  * @property {Number} posX
  * @property {jsPlumb} plumb
  * @property {Lictor.Block{id}} blocks
+ * @property {Boolean} drawed
+ * @property {Object} trace
  */
 Lictor.Step = go.Class({
 
@@ -17,11 +21,13 @@ Lictor.Step = go.Class({
     /**
      * @param {String} title
      */
-    '__construct': (function (num, title) {
-        this.num   = num;
+    '__construct': (function (id, title, ajax) {
+        this.id    = id;
         this.title = title;
+        this.ajax  = ajax;
         this.plumb = jsPlumb.getInstance();
         this.blocks = {};
+        this.drawed = false;
         this.createNode();
     }),
     
@@ -33,12 +39,8 @@ Lictor.Step = go.Class({
     'setTitle': (function (title) {
         this.title = title;
         this.node.find(".title").text(title);
-    }),
-    
-    'draw': (function (data) {
-        
-    }),
-    
+    }),    
+  
     'pos': (function (x) {
         this.posX = x;
         this.node.css("left", x + "px");
@@ -64,6 +66,26 @@ Lictor.Step = go.Class({
                 parent.appendChild(block);
             }
         }
+    }),
+    
+    'onVisible': (function () {
+        if (this.drawed) {
+            return;
+        }
+        this.drawed = true;
+        this.ajax.requestGet(this.id, this.onSuccessGet);
+    }),
+    
+    'onSuccessGet': (function (result) {
+        if (result && result[this.id].json) {
+            this.trace = result[this.id].json;
+            this.draw();
+        }
+    }),
+    
+    'draw': (function () {
+        this.container = this.node.find(".content");
+        this.container.removeClass("loading");    
     }),
     
     'eoc': null
