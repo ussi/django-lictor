@@ -1,4 +1,4 @@
-import threading
+# import threading
 
 from django.core.handlers.base import BaseHandler
 from django.core.urlresolvers import reverse
@@ -28,8 +28,9 @@ def activate():
 
         # Build graph in thread
         graph = Graph(tracer.frames)
-        thread = threading.Thread(target=graph.build_and_save, args=[session])
-        thread.daemon = True
-        thread.start()
+        graph.build_and_save(session)
+        # thread = threading.Thread(target=graph.build_and_save, args=[session])
+        # thread.daemon = True
+        # thread.start()
 
         return result
