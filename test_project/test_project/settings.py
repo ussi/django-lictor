@@ -91,7 +91,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'lictor.middleware.CollectMiddleware',
+    # 'lictor.middleware.FakeCollectMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -168,3 +168,7 @@ try:
             globals()[key] = value
 except ImportError:
     raise
+
+
+import lictor
+lictor.activate()
