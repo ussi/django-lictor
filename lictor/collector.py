@@ -3,11 +3,9 @@ import sys
 import simplejson
 from hashlib import md5 as hasher
 
-from django.conf import settings
-from django.utils.importlib import import_module
+# from django.conf import settings
+# from django.utils.importlib import import_module
 from django.utils.datastructures import SortedDict
-
-from lictor.models import Trace
 
 
 class Tracer(object):
@@ -37,12 +35,12 @@ class Graph(object):
 
     def __init__(self, frames):
         self.frames = frames
-        # Exclude some paths if it is not appear in INSTALLED_APPS
-        for app in settings.INSTALLED_APPS + ('django', ):
-            self.apps.append(import_module(app).__file__.rsplit('/', 1)[0])
-        self.apps.remove(os.path.dirname(__file__))  # Remove lictor
+        # # Exclude some paths if it is not appear in INSTALLED_APPS
+        # for app in settings.INSTALLED_APPS + ('django', ):
+        #     self.apps.append(import_module(app).__file__.rsplit('/', 1)[0])
+        # self.apps.remove(os.path.dirname(__file__))  # Remove lictor
 
-    def add(self, iframe, event):
+    def add(self, iframe):
         """Add iframe to graph"""
         iframe_id = iframe.get_id()
         parent_iframe = self.find_django_parent_frame(iframe.parent)
@@ -58,29 +56,27 @@ class Graph(object):
     def find_django_parent_frame(self, iframe):
         """Binding frame-to-parent, excluding unnecessary frames"""
         while iframe:
-            if iframe.get_id() in self.graph.keys():
+            if iframe.get_id() in self.graph.keys() and iframe.get_django_type():
                 return iframe
             iframe = iframe.parent
 
-    def is_available_frame(self, path=""):
-        """Check frame.f_code.co_filename in INSTALLED_APPS"""
-        for app_path in self.apps:
-            if app_path in path:
-                return True
-        return False
+    # def is_available_frame(self, path=""):
+    #     """Check frame.f_code.co_filename in INSTALLED_APPS"""
+    #     for app_path in self.apps:
+    #         if app_path in path:
+    #             return True
+    #     return False
 
     def build_and_save(self, session):
         """Build the graph of call stack and save result to Trace model"""
         for frame, event, arg in self.frames:
-            if self.is_available_frame(path=frame.f_code.co_filename):
-                iframe = FrameInspector(frame)
-                self.add(iframe, event)
-        for g in self.graph.values():
-            print g['file']
-            print
-        # Trace.objects.create(
-        #     session=session,
-        #     json=simplejson.dumps(self.graph.values()))
+            iframe = FrameInspector(frame)
+            if iframe and iframe.get_django_name():
+                self.add(iframe)
+        from lictor.models import Trace
+        Trace.objects.create(
+            session=session,
+            json=simplejson.dumps(self.graph.values()))
 
 
 class FrameInspector(object):
@@ -91,7 +87,7 @@ class FrameInspector(object):
     def __init__(self, frame):
         assert frame
         self.frame = frame
-        self.inspect()
+        self.django_name, self.django_type = self.inspect()
 
     def inspect(self):
         """Extract additional infromation from frame
@@ -99,10 +95,38 @@ class FrameInspector(object):
         * django type (Model, Manager, View, Url, Form, etc)
         * django name ("films.models.Film", "films.form.SomeForm", "urlpattern(^(?P<page>\d+)/$)")
         """
-        if "models/manager" in self.frame.f_code.co_filename and "__get__" in self.frame.f_code.co_name:
-            # models.Manager
-            self.django_name = self.frame.f_locals['self'].manager.model
-            self.django_type = "models.Manager"
+        from django.db.models.query import QuerySet
+        from django.forms import ModelForm, Form
+        filename = self.get_filename()
+        # if "models/manager" in filename and "__get__" in self.frame.f_code.co_name:
+        #     # models.Manager descriptor
+        #     return self.frame.f_locals['self'].manager.model, "Manager"
+        if "django/core/urlresolvers" in filename:
+            # urlresolver
+            # from django.core.urlresolvers import ResolverMatch
+            # instance = self.frame.f_locals.get('self')
+            # if instance.__class__ is ResolverMatch:
+            #     self.frame.f_locals.get('func')
+            #     return "Url"
+            return self.frame.f_locals.get('path'), "Url"
+        if "django/views" in filename:
+            instance = self.frame.f_locals.get('self')
+            if instance:
+                return self.get_name_by_type(instance.__class__), "View"
+        if "django/db/models/query.py" in filename:
+            instance = self.frame.f_locals.get('self')
+            if isinstance(instance, (QuerySet, )):
+                return self.get_name_by_type(instance.model), "Model"
+        if "django/forms" in filename:
+            type_of_instance = type(self.frame.f_locals.get('self'))
+            if issubclass(type_of_instance, ModelForm):
+                return self.get_name_by_type(type_of_instance), "ModelForm"
+            if issubclass(type_of_instance, Form):
+                return self.get_name_by_type(type_of_instance), "Form"
+        return "", ""
+
+    def get_name_by_type(self, type_of_instance):
+        return ".".join([type_of_instance.__module__, type_of_instance.__name__])
 
     def get_id(self):
         """Return identificator of frame, for binging frame stack"""
