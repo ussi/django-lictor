@@ -1,4 +1,6 @@
 # import threading
+import urllib2
+import simplejson
 
 from django.core.handlers.base import BaseHandler
 from django.core.urlresolvers import reverse
@@ -15,6 +17,8 @@ def activate():
     @replace_call(BaseHandler.get_response)
     def get_response(func, instance, request):
         session = request.COOKIES.get(settings.LICTOR_SESSION_COOKIE_NAME)
+        session = simplejson.loads(urllib2.unquote(session))
+
         if not session or\
                request.META['PATH_INFO'].startswith(reverse('lictor-workspace')) or\
                request.META['PATH_INFO'].startswith(settings.STATIC_URL):
@@ -27,8 +31,8 @@ def activate():
         tracer.stop()
 
         # Build graph in thread
-        graph = Graph(tracer.frames)
-        graph.build_and_save(session)
+        graph = Graph(tracer.frames, session['sid'], session['apps'])
+        graph.build_and_save()
         # thread = threading.Thread(target=graph.build_and_save, args=[session])
         # thread.daemon = True
         # thread.start()

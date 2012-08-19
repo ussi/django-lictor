@@ -3,8 +3,9 @@ import sys
 import simplejson
 from hashlib import md5 as hasher
 
-# from django.conf import settings
-# from django.utils.importlib import import_module
+from django.conf import settings
+
+from django.utils.importlib import import_module
 from django.utils.datastructures import SortedDict
 
 
@@ -33,12 +34,17 @@ class Graph(object):
     available_apps = []
     graph = SortedDict()
 
-    def __init__(self, frames):
+    def __init__(self, frames, session, available_apps):
         self.frames = frames
-        # # Exclude some paths if it is not appear in INSTALLED_APPS
-        # for app in settings.INSTALLED_APPS + ('django', ):
-        #     self.available_apps.append(import_module(app).__file__.rsplit('/', 1)[0])
-        # self.available_apps.remove(os.path.dirname(__file__))  # Remove lictor
+        self.session = session
+
+        available_apps = available_apps or settings.INSTALLED_APPS
+        for app in available_apps + ('django', ):
+            self.available_apps.append(import_module(app).__file__.rsplit('/', 1)[0])
+        try:
+            self.available_apps.remove(os.path.dirname(__file__))  # Remove lictor
+        except ValueError:
+            pass
 
     def add(self, iframe):
         """Add iframe to graph"""
@@ -61,22 +67,24 @@ class Graph(object):
                 return iframe
             iframe = iframe.parent
 
-    # def is_available_frame(self, path=""):
-    #     """Check frame.f_code.co_filename in INSTALLED_APPS"""
-    #     for app_path in self.available_apps:
-    #         if app_path in path:
-    #             return True
-    #     return False
+    def is_available_frame(self, path=""):
+        """Check frame.f_code.co_filename in self.available_apps"""
+        for app_path in self.available_apps:
+            if app_path in path:
+                return True
+        return False
 
-    def build_and_save(self, session):
+    def build_and_save(self):
         """Build the graph of call stack and save result to Trace model"""
         for frame, event, arg in self.frames:
-            iframe = FrameInspector(frame)
-            if iframe and iframe.get_name():
-                self.add(iframe)
+            if self.is_available_frame(frame.f_code.co_filename):
+                iframe = FrameInspector(frame)
+                if iframe and iframe.get_name():
+                    self.add(iframe)
+
         from lictor.models import Trace
         Trace.objects.create(
-            session=session,
+            session=self.session,
             json=simplejson.dumps(self.graph.values()))
 
 
