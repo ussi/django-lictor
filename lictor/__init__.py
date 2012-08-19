@@ -17,7 +17,10 @@ def activate():
     @replace_call(BaseHandler.get_response)
     def get_response(func, instance, request):
         session = request.COOKIES.get(settings.LICTOR_SESSION_COOKIE_NAME)
-        session = simplejson.loads(urllib2.unquote(session))
+        try:
+            session = simplejson.loads(urllib2.unquote(session))
+        except AttributeError:
+            pass
 
         if not session or\
                request.META['PATH_INFO'].startswith(reverse('lictor-workspace')) or\
