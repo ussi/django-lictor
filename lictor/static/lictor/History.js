@@ -25,7 +25,7 @@ Lictor.History = go.Class([go.Ext.Nodes], {
     }),
     
     'onClickItem': (function (e) {
-console.log(e);
+
     }),
 
     'eoc': null
