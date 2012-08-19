@@ -7,6 +7,7 @@
  * @property {Lictor.Session} session
  * @property {Lictor.Workspace} workspace
  * @property {Lictor.Ajax} ajax
+ * @property {Lictor.History} history
  * @property int stepRequestInterval
  */
 var Lictor = go.Class(go.Ext.Nodes, {
@@ -18,7 +19,8 @@ var Lictor = go.Class(go.Ext.Nodes, {
             "Session",
             "Workspace",
             "Step",
-            "Block"
+            "Block",
+            "History"
         ],
         
         'loadClasses': (function () {
@@ -44,7 +46,8 @@ var Lictor = go.Class(go.Ext.Nodes, {
     
     'nodes': {
         'session_toggle' : "#session-toggle",
-        'workspace'      : "#workspace"
+        'workspace'      : "#workspace",
+        'history'        : "#history"
     },
     
     'STEP_REQUEST_PERIOD': 10000,
@@ -61,10 +64,11 @@ var Lictor = go.Class(go.Ext.Nodes, {
     }),
     
     'run': (function (registry) {
-        this.registry = registry;
-        this.session = new Lictor.Session(this.nodes.session_toggle, registry.session_cookie_name);
-        this.ajax = new Lictor.Ajax(registry.lictor_dir, registry.csrf);
-        this.workspace = new Lictor.Workspace(this.nodes.workspace, this.ajax);
+        this.registry  = registry;
+        this.session   = new Lictor.Session(this.nodes.session_toggle, registry.session_cookie_name);
+        this.ajax      = new Lictor.Ajax(registry.lictor_dir, registry.csrf);
+        this.history   = new Lictor.History(this.nodes.history);
+        this.workspace = new Lictor.Workspace(this.nodes.workspace, this.ajax, this.history);        
                 
         this.stepRequestInterval = setInterval(this.onStepInterval, this.STEP_REQUEST_PERIOD);
         this.onStepInterval();

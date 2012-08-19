@@ -34,6 +34,12 @@
     position: relative;
 }
 
+#history {
+    border: 1px solid black;
+    height: 500px;
+    overflow-y: scroll;
+}
+
 .lictor-step {
     width: 300px;
     height: 450px;
