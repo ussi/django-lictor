@@ -1,4 +1,3 @@
-import sys
 import threading
 
 from django.core.handlers.base import BaseHandler

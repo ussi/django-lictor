@@ -1,5 +1,4 @@
 from lictor.fake import make_fake
-from django.conf import settings
 
 
 class FakeCollectMiddleware(object):

@@ -1,11 +1,14 @@
 import hashlib
 import simplejson
 
+from django.conf import settings
+
 from lictor.models import Trace
 
 
 def md5(s):
     return hashlib.md5(s).hexdigest()
+
 
 def make_fake(request):
     session = request.COOKIES.get(settings.LICTOR_SESSION_COOKIE_NAME)
