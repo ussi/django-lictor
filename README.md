@@ -3,6 +3,8 @@ django-lictor
 
 **Reusable application for visualization your Django-projects via stack trace.**
 
+<img src="https://raw.github.com/ussi/django-lictor/master/lictor/static/screenshots/lictor.png" />
+
 You need to install it (see below), then the interface will be available by address http://example.org/lictor/.
 During the execution of your project will collect traceback and drawn in the interface "django-lictor".
 
