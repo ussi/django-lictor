@@ -1,6 +1,6 @@
 # coding: utf-8
 import os
-from fabric.api import run, env, cd, roles
+from fabric.api import run, env, cd, roles, prefix, lcd, local
 
 env.roledefs['production'] = ['adw0rd@jsjs.ru:2442']
 
@@ -53,6 +53,13 @@ def runfcgi_start():
         'pidfile={pidfile} minspare=2 maxspare=10 maxchildren=3 maxrequests=100 '
         'outlog={outlog} errlog={errlog} umask=000 workdir={project_root}'.format(**dict(env)))
 
+def runfcgi_local():
+    with prefix('source /home/adw0rd/work/django-lictor/venv/bin/activate'):
+        lcd('/home/adw0rd/work/django-lictor/test_project')
+        local('./manage.py runfcgi host=localhost port=8005 method=prefork '
+              'pidfile=/tmp/test_project.pid minspare=2 maxspare=10 maxchildren=3 maxrequests=100 '
+              'outlog=/tmp/test_project.out errlog=/tmp/test_project.err umask=000 '
+              'workdir=/home/adw0rd/work/django-lictor/test_project')
 
 @roles('production')
 def runfcgi_restart():
