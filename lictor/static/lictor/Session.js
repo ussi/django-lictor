@@ -4,6 +4,7 @@
  * @class Lictor.Session
  *
  * @property {String} id
+ * @property {String[]} apps
  *
  * @event start
  * @event stop
@@ -28,14 +29,19 @@ Lictor.Session = go.Class([go.Ext.Nodes, go.Ext.Events], {
     },
 
     '__construct': (function (node, cookieName) {
+        var cook;
         this.initNodes(node);
         this.COOKIE_NAME = cookieName || this.COOKIE_NAME;
-        this.id = $.cookie(this.COOKIE_NAME);
+        cook = $.cookie(this.COOKIE_NAME);
+        if (cook) {
+            this.parseCookieValue(cook);
+        }
         if (this.id) {
             this.toggleStart();
         } else {
             this.toggleStop();
         }
+        this.apps = [];
     }),
     
     '__destruct': (function () {
@@ -61,7 +67,7 @@ Lictor.Session = go.Class([go.Ext.Nodes, go.Ext.Events], {
             return;
         }
         this.id = this.createId();
-        $.cookie(this.COOKIE_NAME, this.id, {'path': "/"});
+        $.cookie(this.COOKIE_NAME, this.createCookieValue(), {'path': "/"});
         this.toggleStart();
         this.fireEvent("start", this.id);
     }),
@@ -87,6 +93,25 @@ Lictor.Session = go.Class([go.Ext.Nodes, go.Ext.Events], {
     
     'createId': (function () {
         return (new Date()).getTime();
+    }),
+    
+    'createCookieValue': (function () {
+        var value = {
+            'sid'  : this.id,
+            'apps' : this.apps
+        };
+        return $.toJSON(value);
+    }),
+    
+    'parseCookieValue': (function (value) {
+        value = $.parseJSON(value);
+        this.id = value.sid;
+        this.apps = value.apps || [];
+    }),
+    
+    'setAppsList': (function (apps) {
+        this.apps = apps;
+        $.cookie(this.COOKIE_NAME, this.createCookieValue(), {'path': "/"});
     }),
 
     'eoc': null
