@@ -69,4 +69,22 @@
     padding: 0;
     border: 1px solid black;
     position: absolute;
+    overflow: hidden;
+    background-color: white;
+}
+
+.lictor-step .content .url {
+    border: 2px solid yellow !important;
+}
+
+.lictor-step .content .view {
+    border: 2px solid green !important;
+}
+
+.lictor-step .content .model {
+    border: 2px solid red !important;
+}
+
+.lictor-step .content .modelform {
+    border: 2px solid blue !important;
 }
