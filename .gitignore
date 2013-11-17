@@ -7,3 +7,5 @@
 .idea
 local_settings.py
 /venv/
+env
+*.DS_Store
