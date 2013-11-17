@@ -1,39 +1,48 @@
-django-lictor
-=============
+# django-lictor
 
-**Reusable application for visualization your Django-projects via stack trace.**
+**Reusable application for visualizing your Django projects via stack trace.**
 
-<img src="https://raw.github.com/ussi/django-lictor/master/lictor/static/screenshots/lictor.png" />
+> Please see the test_project for a working example. 
 
-You need to install it (see below), then the interface will be available by address http://example.org/lictor/.
-During the execution of your project will collect traceback and drawn in the interface "django-lictor".
+![django-lictor](https://raw.github.com/mjhea0/django-lictor/master/lictor.png)
 
-    pip install -e git://github.com/ussi/django-lictor.git#egg=django-lictor
-    
-The demo project: http://lictor.tetronix.org/ and http://lictor.tetronix.org/lictor/
+## Setup
 
-Add to settings.py:
---------
+``` sh
+$ pip install -e git://github.com/mjhea0/django-lictor.git#egg=django-lictor
+```
 
-    INSTALLED_APPS = (
-        'lictor',
-    )
+## Add to settings.py:
 
-    LICTOR_SESSION_COOKIE_NAME = "lictor_session"
+```python
+INSTALLED_APPS = (
+    'lictor',
+    'south'
+)
 
-    import lictor
-    lictor.activate()
+LICTOR_SESSION_COOKIE_NAME = "lictor_session"
 
+import lictor
+lictor.activate()
+```
 
-Add to urls.py:
--------
+> Make sure to update the cookie name
 
-    urlpatterns = patterns('',
-        url(r'^lictor/', include('lictor.urls')),
-    )
+## Add to urls.py:
 
-South migrate and runserver:
--------
+```python
+urlpatterns = patterns('',
+    url(r'^lictor/', include('lictor.urls')),
+)
+```
 
-    ./manage.py migrate lictor
-    ./manage.py runserver
+## South migrate and runserver:
+
+```python
+$ python manage.py syncdb
+$ python manage.py migrate lictor
+$ python setup.py install # from "django-lictor" directory
+$ python manage.py runserver
+```
+
+Go to [http://localhost:8000/lictor](http://localhost:8000/lictor) to access the lictor portal.

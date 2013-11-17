@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TODO App</title>
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.css" rel="stylesheet" media="screen">
+</head>
+<style>
+body {padding-top: 50px;}
+.container {max-width: 600px;}
+</style>
+<body>
+<div class="container">
+<h1>TODO App</h1>
+<br>
+<div class="item-block add">
+<form role="form" class="add" action="/add/" method="post">
+{% csrf_token %}
+<input class="form-control item" type="text" name="text">
+<button class="submit-button btn btn-default" type="submit">ADD</button>
+</form>
+<br>
+{% for item in items %}
+<div class="item-block">
+<p class="item">{{item.text}}</p>
+<form action="/delete/" method="post">
+{% csrf_token %}
+<p><input type="hidden" name="id" value="{{item.id}}">
+<button class="submit-button btn btn-default btn-xs" type="submit">DELETE</button></p>
+</form>
+</div>
+{% endfor %}
+</div>
+</div>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

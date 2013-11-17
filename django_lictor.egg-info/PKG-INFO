@@ -1,0 +1,14 @@
+Metadata-Version: 1.1
+Name: django-lictor
+Version: 0.0.1-alpha
+Summary: Reusable application for visualization of Django-project
+Home-page: http://github.com/ussi/django-lictor
+Author: Mikhail Andreev
+Author-email: x11org@gmail.com
+License: BSD
+Description: UNKNOWN
+Keywords: django,visualization
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Framework :: Django
+Classifier: Environment :: Web Environment
