@@ -2,6 +2,8 @@
 
 **Reusable application for visualizing your Django projects via stack trace.**
 
+Please see the test_project for a working example. 
+
 ![django-lictor]()
 
 ## Setup
@@ -39,6 +41,7 @@ urlpatterns = patterns('',
 ```python
 $ python manage.py syncdb
 $ python manage.py migrate lictor
+$ python setup.py install # from lictor directory
 $ python manage.py runserver
 ```
 
